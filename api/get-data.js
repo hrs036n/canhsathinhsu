@@ -19,13 +19,13 @@ export default async function handler(req, res) {
         try {
             const { date, user } = req.query; // Lấy tham số từ query
 
-            if (!user) {
-                const result = await db.query("SELECT * FROM culi_tracker WHERE date = $1", [date]);
-                res.status(200).json(result.rows);
-            } else {
+            // if (!user) {
+            //     const result = await db.query("SELECT * FROM culi_tracker WHERE date = $1", [date]);
+            //     res.status(200).json(result.rows);
+            // } else {
                 const result = await db.query("SELECT * FROM culi_tracker WHERE date = $1 AND createdby = $2", [date, user]);
                 res.status(200).json(result.rows);
-            }
+            // }
         } catch (error) {
             res.status(500).json({ error: 'Failed to read data.' });
         }
