@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [{ "src": "api/*.js", "use": "@vercel/node" }],
+  "routes": [
+    {
+      "src": "/api/get",
+      "dest": "/api/get-data.js"
+    },
+    {
+      "src": "/api/update",
+      "dest": "/api/update-data.js"
+    },
+    { "src": "/api/get-select", "dest": "/api/get-select.js" },
+    { "src": "/api/post_v2", "dest": "/api/post.js" },
+    { "src": "/api/update_v2", "dest": "/api/update.js" },
+    { "src": "/api/delete", "dest": "/api/delete.js" }
+  ]
+}
