@@ -1,0 +1,42 @@
+{
+    "manifest_version": 3,
+    "name": "My Personal Extension",
+    "version": "1.0",
+    "description": "This is a personal Chrome extension.",
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "tabs",
+        "storage",
+        "scripting",
+        "activeTab"
+    ],
+    "host_permissions": [
+        "https://itcgroup.iworkspace.io/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://itcgroup.iworkspace.io/*"
+            ],
+            "js": [
+                "contentScript.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+    {
+      "resources": ["logo.png"],
+      "matches": ["https://itcgroup.iworkspace.io/*"]
+    }
+  ],
+  "icons": {
+    "16": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  }
+}
