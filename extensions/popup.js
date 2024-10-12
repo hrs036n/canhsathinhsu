@@ -45,9 +45,43 @@ document.addEventListener("DOMContentLoaded", function () {
   chrome.storage.local.get(["token"], function (result) {
     if (result.token) {
       const token = JSON.parse(result.token);
-      fetchValueSelect(token.user.email);
+
+      if (token &&(!!token.user || !!token.accessToken)) {
+        setProcessingState(true);
+        setProcessingDelete(true);
+        setProcessingPost(true);
+
+        fetchValueSelect(token.user.email);
+      } else {
+        chrome.storage.local.remove("token", function () {
+          if (chrome.runtime.lastError) {
+            console.error("Error removing token:", chrome.runtime.lastError);
+          } else {
+            console.log("Token removed successfully");
+          }
+          document.body.innerHTML = `
+          <div class="container">
+              <h1>❌ Access Denied ❌</h1>
+              <p>Chưa login vô iws để lấy token mà đòi xài rồi 🙂</p>
+              <a href="https://itcgroup.iworkspace.io/login" target="_blank">Click vô đây nè!!!</a>
+              <div style="margin-top: 10px;"><i><b>Note: </b>Nếu login rồi mà vẫn ko vô được thì hãy F5 lại =))) và tắt mở extensions lại nhớ. Thanks youuuu!!!</i></div>
+          </div>
+      `;
+        });
+      }
     } else {
       statusDiv.innerHTML = "Lỗi mẹ rồi =)))...";
+      statusDiv.innerHTML = "token " + JSON.stringify(result, null, 2);
+
+      // If the token doesn't exist, display a message or different page
+      document.body.innerHTML = `
+            <div class="container">
+                <h1>❌ Access Denied ❌</h1>
+                <p>Chưa login vô iws để lấy token mà đòi xài rồi 🙂</p>
+                <a href="https://itcgroup.iworkspace.io/login" target="_blank">Click vô đây nè!!!</a>
+                <div style="margin-top: 10px;"><i><b>Note: </b>Nếu login rồi mà vẫn ko vô được thì hãy F5 lại =))) và tắt mở extensions lại nhớ. Thanks youuuu!!!</i></div>
+            </div>
+        `;
     }
   });
 
@@ -146,12 +180,15 @@ async function fetchValueSelect(user) {
       selectElement.appendChild(opt);
     });
 
-    if (options.filter((x) => x.value === date).length > 0 || options.length >= 4) {
+    if (options.filter((x) => x.value === date).length > 0) {
       isCreate = false;
       buttonPost.disabled = true;
     } else {
       isCreate = true;
     }
+    setProcessingState(false);
+    setProcessingDelete(false);
+    setProcessingPost(false);
   } catch (error) {
     statusDiv.innerHTML = "Lỗi mẹ rồi =)))..." + error;
   }

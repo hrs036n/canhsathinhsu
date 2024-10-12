@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "My Personal Extension",
-    "version": "1.0",
+    "name": "Culi Tracker Extension",
+    "version": "3.0.1",
     "description": "This is a personal Chrome extension.",
     "action": {
         "default_popup": "popup.html"
